@@ -153,11 +153,11 @@ io.on('connection', function(socket) {
   socket.emit('existing_shapes', {shapes: doc.elements});
 
 
-
     var clientId = userId++;
 
     // add user to the allclients list
     allClients[clientId] = socket;
+    socket.emit('user_id', clientId)
 
     socket.on('create', function(msg) {
         console.log('create: ' + msg + "; assigning id m-" + id);
@@ -179,7 +179,9 @@ io.on('connection', function(socket) {
 
     io.emit('user_joined', {userId: clientId})
 
-
+    socket.on('chat_message', function(msg) {
+      io.emit('chat_message', msg);
+    });
     socket.on('create_text', function(msg) {
       console.log('create_text: ' + msg + "; assigning id m-" + id);
 
