@@ -2,19 +2,20 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="script.js"></script>
     <div id="top_bar">
-        Logo, New, Download...
+        <img src="Images/Logo.bmp" />
+        <img src="Images/New.bmp" style="cursor: pointer;" onclick="click_new();" />
+        <img src="Images/Download.bmp"  style="cursor: pointer;" onclick="click_download();" />
+        <img src="Images/Share.bmp"  style="cursor: pointer;" onclick="click_share();" />
     </div>
     <div id="main_area">
         <div id="middle_pane">
             <div id="drawing_bar">
-                <div id="selector_icon_div" onclick="click_selector_tool();"><img width=24 height=24 src="images/Selector Tool.bmp" /></div>
-                <div id="selector_text_div" onclick="click_selector_tool();">Select</div>
-                <div id="drawtool_icon_div" onclick="click_draw_tool();"><img width=24 height=24 src="images/Draw Tool.bmp" /></div>
-                <div id="drawtool_text_div" onclick="click_draw_tool();">&nbspDraw</div>
+                <div id="selector_icon_div" onclick="click_selector_tool();"><img height=24 src="Images/Selector Tool.png" /></div>
+                <div id="drawtool_icon_div" onclick="click_draw_tool();"><img height=24 src="Images/Draw Tool.png" /></div>
+                <div id="drawtool_colourpicker_div"><input type="color" style="width:50px;" /></div>
             </div>
             <div id="canvas_area">
                 <div id="canvas">
-                    
                 </div>
             </div>
         </div>

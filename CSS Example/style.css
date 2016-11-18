@@ -88,7 +88,7 @@ div{
     background-color: lightgrey;
     z-index: 1;
 }
-#board{
+#canvas{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -172,32 +172,22 @@ div{
     left:0;
     top: 0;
     bottom: 0;
-    width: 24px;
-    cursor: pointer;
-}
-#selector_text_div{
-    position:absolute;
-    float:left;
-    left: 24px;
-    top: 0;
-    bottom: 0;
-    width: 46px;
+    width: 82px;
     cursor: pointer;
 }
 #drawtool_icon_div{
     position:absolute;
-    left: 70px;
+    left: 82px;
     top: 0;
     bottom: 0;
-    width: 24px;
+    width: 77px;
     cursor: pointer;
 }
-#drawtool_text_div{
+#drawtool_colourpicker_div{
     position:absolute;
-    float:left;
-    left: 94px;
+    left: 159px;
     top: 0;
     bottom: 0;
-    width: 42px;
+    width: 50px;
     cursor: pointer;
 }
