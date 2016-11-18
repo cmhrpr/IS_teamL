@@ -31,7 +31,7 @@
   <body>
 
 
-    <h1>Shapes collection</h1>
+    <h1 id="title">Shapes collection</h1>
 
 
     <div id="main_area">
@@ -61,6 +61,11 @@
                 </center>
 		<div id="templates">
 		<table id = "table">
+      <input id="textValue" />
+      <button id="newText">New Text</button>
+      <input id="imgUrl" />
+      <button id="newImg">New Image</button>
+      <br/>
 		    <tr>
 			<td><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"> <rect x = "0" y = "0" width = "100" height = "100"/></svg></td>
 			<td><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle r="50" cx="50" cy="50"/></svg></td>
@@ -80,7 +85,7 @@
 
 
 		</div>
-		
+
             </div>
             <div id="users_pane">
                 <center><b>Users Currently Editing</b></center> <br />
@@ -126,7 +131,7 @@
                     !-->
                 </div>
                 <div id="chat_pane_message_box">
-                    <input id="textbox" type="text" /> <input style="float:right;" type="submit" value="Send" />
+                    <input id="chat_textbox" type="text" /> <input style="float:right;" id="chat_submit" type="submit" value="Send" />
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 function WhiteBoardDocument(id){
   this.id = id;
-  this.elements = [];
+  this.elements = {};
   this.changed = [];
 }
 

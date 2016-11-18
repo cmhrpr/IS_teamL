@@ -1,3 +1,35 @@
+tool_enum = {
+    SELECTOR : 1,
+    DRAWTOOL : 2
+}
+
+var currently_selected_tool;
+
+function init(){
+    click_selector_tool();
+}
+
+function click_selector_tool(){
+    document.getElementById("selector_icon_div").style.backgroundColor = "lightblue";
+    document.getElementById("selector_text_div").style.backgroundColor = "lightblue";
+    if(currently_selected_tool == tool_enum.DRAWTOOL){
+        document.getElementById("drawtool_icon_div").style.backgroundColor = "white";
+        document.getElementById("drawtool_text_div").style.backgroundColor = "white";
+    }
+    currently_selected_tool = tool_enum.SELECTOR
+}
+function click_draw_tool(){
+    document.getElementById("drawtool_icon_div").style.backgroundColor = "lightblue";
+    document.getElementById("drawtool_text_div").style.backgroundColor = "lightblue";
+    if(currently_selected_tool == tool_enum.SELECTOR){
+        document.getElementById("selector_icon_div").style.backgroundColor = "white";
+        document.getElementById("selector_text_div").style.backgroundColor = "white";
+    }
+    currently_selected_tool = tool_enum.DRAWTOOL
+}
+
+
+
 $(function() {
     var socket = io();
 
@@ -72,13 +104,13 @@ $(function() {
                   return;
               }
               $(this).draggable("option", "disabled", true);
-              $(this).attr('contenteditable', 'true');
+              //$(this).attr('contenteditable', 'true');
           })
 
       .blur(function() {
         // stops text from being editable while blurred
           $(this).draggable('option', 'disabled', false);
-          $(this).attr('contenteditable', 'false');
+          //$(this).attr('contenteditable', 'false');
       });
 
       return $("#" + tId);
@@ -86,7 +118,8 @@ $(function() {
     }
 
     function createText(msg) {
-
+      console.log("creating this text");
+      console.log(msg);
       $( '<div id="'+ msg.id +'"  class="draggable">' + msg.element +'</div>' ).appendTo( '#canvas_area' );
 
       /* when we start dragging an element */
@@ -100,7 +133,7 @@ $(function() {
               });
 
               $(this).draggable('option', 'disabled', false);
-              $(this).attr('contenteditable', 'false');
+              //$(this).attr('contenteditable', 'false');
           },
           /* emit a drag-stop through Socket when stopped dragging */
           stop: function(event, ui) {
@@ -125,7 +158,7 @@ $(function() {
               return;
           }
           $(this).draggable("option", "disabled", true);
-          $(this).attr('contenteditable', 'true');
+        //  $(this).attr('contenteditable', 'true');
       });
 
     /*  $("#" + msg.id)
@@ -292,10 +325,15 @@ $(function() {
     }
 
     function dragElement(msg) {
+      console.log('well this is a drag')
+      console.log(msg);
+      console.log($("#" + msg.id))
         $("#" + msg.id).css({
             left: msg.left,
             top: msg.top
         });
+        console.log($("#" + msg.id))
+
     }
 
 
@@ -318,6 +356,12 @@ $(function() {
 
     }
 
+    function addChat(msg) {
+      $("#chat_pane_content_box").append("<tr id='chat_user" + msg.userId + "'><td><center></td><td>guest"+ msg.userId +": " + msg.chat +"</td></tr>")
+
+
+    }
+
     function removeUser(userId) {
       $("#user" + userId).remove()
     }
@@ -330,6 +374,13 @@ $(function() {
             .css("fill", msg.fill);
     }
 
+    var userId = '';
+
+    socket.on('user_id', function(msg) {
+      userId = msg;
+      $("#title").append("<b>User " + userId + "</b>")
+    });
+
     socket.on('create', function(msg) {
         createElement(msg);
     });
@@ -338,6 +389,10 @@ $(function() {
       console.log('user ' + msg.userId + ' joined the server')
 
        addUser(msg.userId)
+    })
+
+    socket.on('chat_message', function(msg) {
+      addChat(msg);
     })
 
 
@@ -362,7 +417,19 @@ $(function() {
         console.log('creating shape ' + i )
 
         console.log(msg.shapes[thisEl])
+        if (msg.shapes[thisEl].type == 'shape') {
         createExistingElement(msg.shapes[thisEl]);
+      } else if (msg.shapes[thisEl].type == 'text') {
+        createText(msg.shapes[thisEl]);
+
+      } else if (msg.shapes[thisEl].type == 'text') {
+        createImage(msg.shapes[thisEl]);
+
+      }
+
+        if (msg.shapes[thisEl].drag != '') {
+          dragElement(msg.shapes[thisEl].drag)
+        }
 
       }
 
@@ -389,16 +456,20 @@ $(function() {
 
     /* On drag-stop event */
     socket.on('drag-stop', function(msg) {
+      console.log("AM I STOPPED")
+      console.log(msg);
         dragElement(msg);
     });
 
     /* On drag-move event */
     socket.on('drag-move', function(msg) {
-        dragElement(msg);
+      console.log("AM I MOVED")
+      console.log(msg);        dragElement(msg);
     });
 
     /* On transform event */
     socket.on('transform', function(msg) {
+      console.log(msg);
         transformElement(msg);
     });
 
@@ -471,6 +542,13 @@ $(function() {
           socket.emit('create_text', $("#textValue").val());
 
         });
+
+
+                $("#chat_submit").click(function() {
+
+                  socket.emit('chat_message', {chat: $("#chat_textbox").val(), userId: userId});
+
+                });
 
         $("#newImg").click(function() {
 
