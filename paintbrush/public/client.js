@@ -49,3 +49,16 @@ document.addEventListener("DOMContentLoaded", function() {
    }
    mainLoop();
 });
+var canvas = document.getElementById('drawing');
+var button = document.getElementById('download');
+function dlCanvas() {
+	  var dt = canvas.toDataURL('image/png');
+	  /* Change MIME type to trick the browser to downlaod the file instead of displaying it */
+	  dt = dt.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+
+	  /* In addition to <a>'s "download" attribute, you can define HTTP-style headers */
+	  dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
+
+	  this.href = dt;
+};
+document.getElementById("dl").addEventListener('click', dlCanvas, false);
