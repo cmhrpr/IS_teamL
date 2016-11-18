@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Shared shapes</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="script.js"></script>
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+    </script>
+    <link
+	rel="stylesheet"
+	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js">
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+    <style>
+    .draggable {
+    background-color:#ccc;
+    width:230px;
+    }
+#templates {
+  width: 100%;
+  height: auto;
+  border: solid red;
+}
+
+#board {
+  width: 100%;
+  height: 600pt;
+  border: solid;
+}
+    </style>
+  </head>
+  <body>
+
+
+    <h1>Shapes collection</h1>
+
+
+    <div id="main_area">
+        <div id="middle_pane">
+            <div id="drawing_bar">
+                <div id="selector_icon_div" onclick="click_selector_tool();"><img width=24 height=24 src="images/Selector Tool.bmp" /></div>
+                <div id="selector_text_div" onclick="click_selector_tool();">Select</div>
+                <div id="drawtool_icon_div" onclick="click_draw_tool();"><img width=24 height=24 src="images/Draw Tool.bmp" /></div>
+                <div id="drawtool_text_div" onclick="click_draw_tool();">&nbspDraw</div>
+            </div>
+            <div id="canvas_area">
+
+
+            </div>
+        </div>
+        <div id="left_pane">
+            <div id="shapes_pane">
+                <center>
+                    <select>
+                        <option>Category 1</option>
+                        <option>Category 2</option>
+                        <option>Category 3</option>
+                        <option>Category 4</option>
+                        <option>Category 5</option>
+                        <option>Category 6</option>
+                        <option>Category 7</option>
+                    </select>
+                </center> <br />
+
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                <rect x="0" y="0" width="100" height="100"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="100">
+                <polyline points="0,0 50,50 0,100" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink"
+                 width="200" height="100">
+                <defs>
+                      <path id="smilePath" d="M75,25 a1,1 0 0,0 100,0" />
+                </defs>
+                <text x="0" y="100" style="stroke: #000000;">
+                <textPath xlink:href="#smilePath">
+                        IS3 lets me do cool stuff!
+                </textPath>
+                </text>
+                  </svg>
+                  <label><input type="radio" name="transform" value="rotate(45deg)" />rotate 45</label>
+                  <label><input type="radio" name="transform" value="scale(2)" />scale 2</label>
+                  <label><input type="radio" name="transform" value="scale(0.5)" />scale 0.5</label>
+                  <label><input type="radio" name="transform" value="" />(restore)</label>
+                  <input id="textValue" />
+                  <button id="newText">New Text</button>
+                  <input id="imgUrl" />
+                  <button id="newImg">New Image</button>
+                  <br/>
+                  <label><input type="radio" name="fill" value="red" />red</label>
+                  <label><input type="radio" name="fill" value="green" />green</label>
+                  <label><input type="radio" name="fill" value="blue" />blue</label>
+                  <label><input type="radio" name="fill" value="black" />black</label>
+                  <div id="templates">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                  <circle r="50" cx="50" cy="50"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                  <rect x="0" y="0" width="100" height="100"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="100">
+                  <polyline points="0,0 50,50 0,100" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                   xmlns:xlink="http://www.w3.org/1999/xlink"
+                   width="200" height="100">
+                  <defs>
+                        <path id="smilePath" d="M75,25 a1,1 0 0,0 100,0" />
+                  </defs>
+                  <text x="0" y="100" style="stroke: #000000;">
+                  <textPath xlink:href="#smilePath">
+                          IS3 lets me do cool stuff!
+                  </textPath>
+                  </text>
+                    </svg>
+                  </div>
+                <table id="" style="width:100%">
+                    <tr>
+
+                        <td><center><!--<img src="Shapes/Square.bmp" width=50 height=50 />!-->   <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                        <circle r="50" cx="50" cy="50"/>
+                          </svg><br />Square</center></td>
+                        <td><center><img src="Shapes/Circle.bmp" width=50 height=50 /><br />Circle</center></td>
+                        <td><center><img src="Shapes/Triangle.bmp" width=50 height=50 /><br />Triangle</center></td>
+                    </tr>
+                    <tr>
+                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 1</center></td>
+                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 2</center></td>
+                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 3</center></td>
+                    </tr>
+                    <tr>
+                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 4</center></td>
+                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 5</center></td>
+                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 6</center></td>
+                    </tr>
+                    <tr>
+                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 7</center></td>
+                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 8</center></td>
+                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 9</center></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="users_pane">
+                <center><b>Users Currently Editing</b></center> <br />
+                <table style="width:100%" id="user_table">
+
+                </table>
+            </div>
+        </div>
+        <div id="right_pane">
+            <div id="shape_properties_pane">
+                <center><b>Shape Properties</b></center> <br />
+                <table>
+                    <tr>
+                        <td>Property 1 </td>
+                        <td><input type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>Property 2</td>
+                        <td><input type="checkbox" /></td>
+                    </tr>
+                    <tr>
+                        <td>Property 3</td>
+                        <td><input type="color" /></td>
+                    </tr>
+                    <tr>
+                        <td>Property 4</td>
+                        <td><input type="number" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="chat_pane">
+                <div id="chat_pane_content_box">
+                    <center><b>Chat</b></center> <br />
+                    <!--
+                    <b>User1</b>: I'm typing some stuff <br />
+                    <b>User2</b>: This is a message <br />
+                    <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                    <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                    <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                    <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                    <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                    <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                    !-->
+                </div>
+                <div id="chat_pane_message_box">
+                    <input id="textbox" type="text" /> <input style="float:right;" type="submit" value="Send" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        init();
+    </script>
+
+
+
+  </body>
+</html>

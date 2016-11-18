@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+        }
+
+        form {
+            background: #000;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        form input {
+            border: 0;
+            padding: 10px;
+            width: 90%;
+            margin-right: .5%;
+        }
+
+        form button {
+            width: 9%;
+            background: rgb(130, 224, 255);
+            border: none;
+            padding: 10px;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #messages li {
+            padding: 5px 10px;
+        }
+
+        #messages li:nth-child(odd) {
+            background: #eee;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .typing {
+            float: right;
+        }
+    </style>
+
+</head>
+
+<body>
+    <ul id="messages"></ul>
+    <form action="">
+        <input id="m" autocomplete="off" />
+        <button>Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        var socket = io();
+        $('form').submit(function() {
+            socket.emit('chat message', $('#m').val());
+            $('#m').val('');
+            return false;
+        });
+
+        socket.on('chat message', function(msg) {
+            $('#messages').append($('<li>').text(msg));
+        });
+
+        // add message when user connects
+        socket.on('user connected', function(msg) {
+            $('#messages').append($('<li>').append($('<b>').text("USER CONNECTED")));
+        });
+
+        // add message when user disconnects
+
+        socket.on('user disconnected', function(msg) {
+            $('#messages').append($('<li>').append($('<b>').text("USER DISCONNECTED")));
+        });
+
+        // when a user starts or stops typing
+        socket.on('typing', function(data) {
+            if (data) {
+
+                // remove hidden class from typing indicator
+                $('#typing').removeClass('hidden');
+            } else {
+                // add hidden class from typing indicator
+
+                $('#typing').addClass('hidden');
+
+            }
+        });
+
+        // Check when user typing
+        var typing = false;
+        var timeout = undefined;
+
+
+        // when typing times out
+        function timeoutFunction() {
+            typing = false;
+            // emit stopped typing message
+            socket.emit("typing", false);
+            console.log("key stopped");
+
+        }
+            // when user starts typing into textbox with ID m
+            $("#m").keypress(function(e) {
+                if (e.which !== 13) {
+                    // if user not typing and #m is in focus
+                    if (typing === false && $("#m").is(":focus")) {
+                        console.log("key press");
+                        // set typing var to true
+                        typing = true;
+
+                        // emit typing message
+                        socket.emit("typing", true);
+                    } else {
+
+                        clearTimeout(timeout);
+                        timeout = setTimeout(timeoutFunction, 5000);
+                    }
+                }
+            });
+    </script>
+    <img src="https://67.media.tumblr.com/1fc81a5126cad41b6b4c7738598b0228/tumblr_nerwu3jiu11sgl0ajo1_500.gif" class="hidden typing" id="typing">
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+/*
+    CSS has no constants for whatever reason, but here is a list of the constants hardcoded in:
+    top bar - main area border:              50 px from top
+    left pane - canvas border:              300 px from the left
+    right pane - canvas border:             300 px from the right
+    shape properties - chat pane border:    400 px from the top
+    shapes pane - users pane border:        400 px from the top
+*/
+
+* { /* Use border-box sizing instead of content-box sizing */
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+div{
+    border-color: grey;
+}
+
+#top_bar{
+    position: absolute;
+    top: 0;
+    height: 50px;
+    left: 0;
+    right: 0;
+    border-style: solid;
+    border-width: 0 0 1 0;
+    background-color: white;
+    z-index: 4;
+}
+#main_area{
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/* main area */
+#middle_pane{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 300px;
+    right: 300px;
+}
+#left_pane{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    border-style: solid;
+    border-width: 0 1 0 0;
+    padding: 5px;
+    background-color: white;
+    z-index: 4;
+}
+#right_pane{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    border-style: solid;
+    border-width: 0 0 0 1;
+    z-index: 4;
+}
+
+/* middle pane */
+#drawing_bar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 25px;
+    border-style: solid;
+    border-width: 0 0 1 0;
+    background-color: white;
+    z-index: 3;
+}
+#canvas_area{
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: lightgrey;
+    z-index: 1;
+}
+#board{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 600px;
+    margin-left: -400px;
+    margin-top: -300px;
+    border-style: solid;
+    border-width: 1;
+    background-color: white;
+    z-index: 2;
+}
+
+/* left pane */
+#shapes_pane{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    padding: 5px;
+    border-style: solid;
+    border-width: 0 0 1 0;
+    background-color: white;
+}
+#users_pane{
+    position: absolute;
+    top: 400px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 5px;
+    background-color: white;
+}
+
+/* right pane */
+#shape_properties_pane{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    padding: 5px;
+    border-style: solid;
+    border-width: 0 0 1 0;
+    background-color: white;
+}
+#chat_pane{
+    position: absolute;
+    top: 400px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+#chat_pane_content_box{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+    padding: 5px;
+    overflow-y: scroll;
+    background-color: white;
+}
+#chat_pane_message_box{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30px;
+    padding: 5px;
+    background-color: white;
+}
+#chat_pane_message_box #textbox{
+    width: 230px;
+}
+
+/* drawing bar */
+#selector_icon_div{
+    position:absolute;
+    left:0;
+    top: 0;
+    bottom: 0;
+    width: 24px;
+    cursor: pointer;
+}
+#selector_text_div{
+    position:absolute;
+    float:left;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 46px;
+    cursor: pointer;
+}
+#drawtool_icon_div{
+    position:absolute;
+    left: 70px;
+    top: 0;
+    bottom: 0;
+    width: 24px;
+    cursor: pointer;
+}
+#drawtool_text_div{
+    position:absolute;
+    float:left;
+    left: 94px;
+    top: 0;
+    bottom: 0;
+    width: 42px;
+    cursor: pointer;
+}
