@@ -18,7 +18,6 @@ var WhiteBoardText = elementsFile.WhiteBoardText;
 
 var documents = {};
 
-
 app.use(express.static('public'))
 
 
@@ -30,64 +29,6 @@ app.get('/Client.js', function(req, res) {
 });
 
 
-/* Send the Client.js file to the client*/
-app.get('/Client.js', function(req, res) {
-    res.sendFile('icon.bmp', {
-        root: __dirname
-    });
-});
-
-/* Send the Client.js file to the client*/
-app.get('/script.js', function(req, res) {
-    res.sendFile('script.js', {
-        root: __dirname
-    });
-});
-
-
-/* Send the Client.js file to the client*/
-app.get('/style.css', function(req, res) {
-    res.sendFile('style.css', {
-        root: __dirname
-    });
-});
-
-app.get('/Images/Cursor.bmp', function(req, res) {
-    res.sendFile('Images/Cursor.bmp', {
-        root: __dirname
-    });
-  });
-
-  app.get('/UserIcons/Icon1.bmp', function(req, res) {
-      res.sendFile('/UserIcons/Icon1.bmp', {
-          root: __dirname
-      });
-    });
-
-    app.get('/UserIcons/Icon3.bmp', function(req, res) {
-        res.sendFile('/UserIcons/Icon1.bmp', {
-            root: __dirname
-        });
-      });
-      app.get('/UserIcons/Icon3.bmp', function(req, res) {
-          res.sendFile('/UserIcons/Icon1.bmp', {
-              root: __dirname
-          });
-        });
-
-        app.get('/UserIcons/Icon4.bmp', function(req, res) {
-            res.sendFile('/UserIcons/Icon1.bmp', {
-                root: __dirname
-            });
-          });
-
-
-  app.get('/Images/DrawTool.bmp', function(req, res) {
-      res.sendFile('/Images/DrawTool.bmp', {
-          root: __dirname
-      });
-    });
-
 
 /* Send the shared-shapes.html file to the client */
 app.get('/', function(req, res) {
@@ -96,10 +37,9 @@ app.get('/', function(req, res) {
     });
 });
 
-users = []
 
 /* Figure out if the user if joining an existing whiteboard */
-app.get('/document/:docId', function(req, res) {
+app.get('/:docId', function(req, res) {
     // first we need to see if this document exists
     var documentId = req.params.docId;
     if (documentId != "client.js") {
@@ -143,6 +83,12 @@ var userId = 0;
 var allClients = {}
 
 var allShapes = {}
+var allChats = []
+
+var line_history = [];
+var count = 0;
+
+var doc = new WhiteBoardDocument(1);
 
 /* When a new client connects */
 io.on('connection', function(socket) {
@@ -152,74 +98,157 @@ io.on('connection', function(socket) {
 
   // send existing users
   socket.emit('existing_users', {users: Object.keys(allClients)});
-  socket.emit('existing_shapes', {shapes: allShapes});
+  socket.emit('existing_shapes', {shapes: doc.elements});
+    count++;
+
+    // first send the history to the new client
+    for (var i in line_history) {
+        socket.emit('draw_line', {
+            line: line_history[i]
+        });
+    }
+
+    for (var i in allChats) {
+      console.log(allChats[i]);
+      socket.emit('chat_message', allChats[i]);
+    }
+
+    socket.on('chat_message', function(msg) {
+        console.log(msg);
+        allChats.push(msg);
+        console.log(allChats);
+        io.emit('chat_message', msg);
+    });
+
+    // report the number of users has increased
+    socket.emit('message', {
+        count: count
+    });
+    // add handler for message type "draw_line".
+    socket.on('draw_line', function(data) {
+        // add received line to history
+        line_history.push(data.line);
+        // send line to all clients
+        io.emit('draw_line', {
+            line: data.line
+        });
+    });
+
+    socket.on('clear', function() {
+        line_history = [];
+        io.emit('clear');
+    });
+
+    // send existing users
+    socket.emit('existing_users', {
+        users: Object.keys(allClients)
+    });
+    socket.emit('existing_shapes', {
+        shapes: allShapes
+    });
 
     var clientId = userId++;
 
     // add user to the allclients list
     allClients[clientId] = socket;
+    socket.emit('user_id', clientId)
+
 
     socket.on('create', function(msg) {
         console.log('create: ' + msg + "; assigning id m-" + id);
-        allShapes[id] = {
-            id: "m-" + id++,
-            element: msg
+        doc.elements["m-" + id] = {
+            id: "m-" + id,
+            element: msg,
+            drag: '',
+            tranform: {id: "", tranform: "", fill: ""},
+            type: 'shape'
         };
         io.emit('create', {
             id: "m-" + id++,
             element: msg
         });
     });
+
     console.log('UserID: ' + clientId + ' joined the server')
 
     // let everyone know a user joined
 
-    io.emit('user_joined', {userId: clientId})
+    io.emit('user_joined', {
+        userId: clientId
+    })
 
 
-    socket.on('create_text', function(msg) {
-      console.log('create_text: ' + msg + "; assigning id m-" + id);
-
-      io.emit('create_text', {
-          id: "m-" + id++,
-          element: msg
-      });
-    });
-    socket.on('create_image', function(msg) {
-      console.log('create_image: ' + msg + "; assigning id m-" + id);
-
-      io.emit('create_image', {
-          id: "m-" + id++,
-          element: msg
-      });
+    socket.on('create', function(msg) {
+        console.log('create: ' + msg + "; assigning id m-" + id);
+        doc.elements["m-" + id] = {
+            id: "m-" + id,
+            element: msg,
+            drag: '',
+            tranform: '',
+            type: 'shape'
+        };
+        io.emit('create', {
+            id: "m-" + id++,
+            element: msg
+        });
     });
     socket.on('drag-move', function(msg) {
         console.log('drag-move: ' + msg.id + " to " + msg.top + " " + msg.left);
+        console.log(msg);
+
+        doc.elements[msg.id].drag = msg;
+
+        console.log();
         socket.volatile.broadcast.emit('drag-move', msg);
     });
+
+
     socket.on('drag-stop', function(msg) {
         console.log('drag-stop: ' + msg.id + " to " + msg.top + " " + msg.left);
         socket.broadcast.emit('drag-stop', msg);
     });
+
+    /* Relay transform message */
     socket.on('transform', function(msg) {
-        console.log('transform: ' + msg);
+      console.log("begin transform")
+      console.log("msg:")
+      console.log(msg);
+      console.log("element:")
+
+      console.log(doc.elements[msg.id]['transform'])
+        doc.elements[msg.id].transform.transform = msg.tranform;
+        doc.elements[msg.id].transform.fill = msg.fill;
+
+
+
         io.emit('transform', msg);
+
     });
-    socket.on('remove', function(oId) {
-      console.log(allShapes)
 
-      console.log('removing ' + oId);
-      console.log(oId);
-
-      console.log(oId['id'].replace("m-", ""));
-      delete allShapes[oId['id'].replace("m-", "")];
-      socket.volatile.broadcast.emit('remove', oId);
+    /* Remove the element with with id msg['id'] */
+    socket.on('remove', function(msg) {
+      console.log('removing ' + msg['id']);
+      delete doc.elements[msg['id']];
+      socket.volatile.broadcast.emit('remove', msg);
     })
 
+
+    var shapeKeys = Object.keys(doc.elements);
+
+    for (var i = 0; i < shapeKeys.length; i++) {
+        var index = shapeKeys[i];
+
+        socket.emit('transform', {shapes: doc.elements[index].transform});
+
+    }
+
     socket.on('disconnect', function() {
-      console.log('Got disconnect!' + clientId);
-      io.emit('user_left', {userId:clientId})
-      delete allClients[clientId];
+        console.log('Got disconnect!' + clientId);
+        io.emit('user_left', {
+            userId: clientId
+        })
+        delete allClients[clientId];
+        count--;
     });
 });
 

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Shared shapes</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+    </script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js">
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+    <style>
+        .draggable {
+            background-color: #ccc;
+            width: 230px;
+        }
+
+        #templates {
+            width: 100%;
+            height: auto;
+            border: solid red;
+        }
+
+        #board {
+            width: 100%;
+            height: 600pt;
+            border: solid;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <h1 id="title"></h1>
+
+
+    <div id="main_area">
+        <div id="middle_pane">
+            <div id="canvas_area">
+                <div id="drawing">
+                </div>
+                <!--<canvas id="drawing"></canvas>!-->
+                <div id="drawing_bar">
+                    <div id="selector_icon_div" onclick="click_selector_tool();"><img width=24 height=24 src="images/Selector Tool.bmp" /></div>
+                    <div id="selector_text_div" onclick="click_selector_tool();">Select</div>
+                    <div id="drawtool_icon_div" onclick="click_draw_tool();"><img width=24 height=24 src="images/Draw Tool.bmp" /></div>
+                    <div id="drawtool_text_div" onclick="click_draw_tool();">Draw</div>
+                </div>
+
+                <canvas id="drawing"></canvas>
+
+            </div>
+
+        </div>
+    </div>
+    <div id="left_pane">
+      <div id="shapes_pane">
+          <center>
+              <select>
+                  <option>Category 1</option>
+                  <option>Category 2</option>
+                  <option>Category 3</option>
+                  <option>Category 4</option>
+                  <option>Category 5</option>
+                  <option>Category 6</option>
+                  <option>Category 7</option>
+              </select>
+          </center>
+          <div id="templates">
+              <table id="table">
+                  <input id="textValue" />
+                  <button id="newText">New Text</button>
+                  <input id="imgUrl" />
+                  <button id="newImg">New Image</button>
+                  <br/>
+                  <tr>
+                      <td>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                              <rect x="0" y="0" width="100" height="100" />
+                          </svg>
+                      </td>
+                      <td>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                              <circle r="50" cx="50" cy="50" />
+                          </svg>
+                      </td>
+                      <td>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="100">
+                              <polyline points="0,0 50,50 0,100" />
+                          </svg>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                              <br />Shape 1</center>
+                      </td>
+                      <td>
+                          <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                              <br />Shape 2</center>
+                      </td>
+                      <td>
+                          <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                              <br />Shape 3</center>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                              <br />Shape 4</center>
+                      </td>
+                      <td>
+                          <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                              <br />Shape 5</center>
+                      </td>
+                      <td>
+                          <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                              <br />Shape 6</center>
+                      </td>
+                  </tr>
+              </table>
+
+
+          </div>
+
+      </div>
+        <div id="users_pane">
+            <center><b>Users Currently Editing</b></center>
+            <br />
+            <table style="width:100%" id="user_table">
+
+            </table>
+        </div>
+    </div>
+    <div id="right_pane">
+        <div id="shape_properties_pane">
+            <center><b>Shape Properties</b></center>
+            <br />
+            <a id="dl" download="Canvas.png" href="#">
+                <button type="button">Download Canvas</button>
+            </a>
+
+            <table>
+                <tr>
+
+                    <div id="controls">
+                        <label for="color">Color:</label>
+                        <select id="color">
+                            <option>Blue</option>
+                            <option>Red</option>
+                            <option>Yellow</option>
+                            <option>Magenta</option>
+                            <option>Green</option>
+                            <option>Cyan</option>
+                            <option>Orange</option>
+                            <option>White</option>
+                        </select>
+                        <label for="size">Size:</label>
+                        <select id="size">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option>15</option>
+                            <option>20</option>
+                            <option>25</option>
+                        </select>
+                        <span id="count">Current Users: 1</span>
+                        <button id="clear">Clear All</button>
+                    </div>
+
+                    <label><input type="radio" name="transform" value="rotate(45deg)" />rotate 45</label>
+                    <label><input type="radio" name="transform" value="scale(2)" />scale 2</label>
+                    <label><input type="radio" name="transform" value="scale(0.5)" />scale 0.5</label>
+                    <label><input type="radio" name="transform" value="" />(restore)</label>
+
+                    <td>Owner</td>
+                    <td>
+                        <b id="shape_owner"></b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Property 2</td>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Fill</td>
+                    <td>
+                      <input id="fillValue" type="color" value="red"/><button id="fillButton">Fill</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Scale</td>
+                    <td>
+                        <input id="scaleValue" type="number" value="1"/><button id="scaleButton">Scale</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="chat_pane">
+            <div id="chat_pane_content_box">
+                <center><b>Chat</b></center> <br />
+                <!--
+                <b>User1</b>: I'm typing some stuff <br />
+                <b>User2</b>: This is a message <br />
+                <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                <b>User</b>: blah blah blah blah blah blah blah blah <br />
+                !-->
+            </div>
+            <div id="chat_pane_message_box">
+                <input id="chat_textbox" type="text" /> <input style="float:right;" id="chat_submit" type="submit" value="Send" />
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        init();
+    </script>
+
+
+
+</body>
+
+</html>

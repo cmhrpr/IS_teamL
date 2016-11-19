@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <title>Shared shapes</title>
+
+<head>
+    <title>Visual Tool</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="script.js"></script>
-    <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
     </script>
-    <link
-	rel="stylesheet"
-	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
-    <script
-	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js">
     </script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="client.js"></script>
     <style>
-    .draggable {
-    background-color:#ccc;
-    width:230px;
-    }
+        .draggable {
+            background-color: #ccc;
+            width: 230px;
+        }
 
-#board {
-  width: 100%;
-  height: 600pt;
-  border: solid;
-}
+        #board {
+            width: 100%;
+            height: 600pt;
+            border: solid;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
 
 
-    <h1 id="title">Shapes collection</h1>
-
+  <h1 id="titleBar">You are user </h1>
 
     <div id="main_area">
         <div id="middle_pane">
@@ -40,7 +37,7 @@
                 <div id="selector_icon_div" onclick="click_selector_tool();"><img width=24 height=24 src="images/Selector Tool.bmp" /></div>
                 <div id="selector_text_div" onclick="click_selector_tool();">Select</div>
                 <div id="drawtool_icon_div" onclick="click_draw_tool();"><img width=24 height=24 src="images/Draw Tool.bmp" /></div>
-                <div id="drawtool_text_div" onclick="click_draw_tool();">&nbspDraw</div>
+                <div id="drawtool_text_div" onclick="click_draw_tool();">Draw</div>
             </div>
             <div id="canvas_area">
 
@@ -59,36 +56,68 @@
                         <option>Category 7</option>
                     </select>
                 </center>
-		<div id="templates">
-		<table id = "table">
-      <input id="textValue" />
-      <button id="newText">New Text</button>
-      <input id="imgUrl" />
-      <button id="newImg">New Image</button>
-      <br/>
-		    <tr>
-			<td><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"> <rect x = "0" y = "0" width = "100" height = "100"/></svg></td>
-			<td><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle r="50" cx="50" cy="50"/></svg></td>
-                        <td><svg xmlns="http://www.w3.org/2000/svg" width="50" height="100"><polyline points="0,0 50,50 0,100" /></svg></td>
-		    </tr>
-		    <tr>
-                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 1</center></td>
-                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 2</center></td>
-                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 3</center></td>
-                    </tr>
-                    <tr>
-                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 4</center></td>
-                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 5</center></td>
-                        <td><center><img src="Shapes/Shape.bmp" width=50 height=50 /><br />Shape 6</center></td>
-                    </tr>
-		</table>
+                <div id="templates">
+                    <table id="table">
+                        <tr>
+                            <td>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                                    <rect x="0" y="0" width="100" height="100" />
+                                </svg>
+                            </td>
+                            <td>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                                    <circle r="50" cx="50" cy="50" />
+                                </svg>
+                            </td>
+                            <td>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="100">
+                                    <polyline points="0,0 50,50 0,100" />
+                                </svg>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                                    <br />Shape 1</center>
+                            </td>
+                            <td>
+                                <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                                    <br />Shape 2</center>
+                            </td>
+                            <td>
+                                <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                                    <br />Shape 3</center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                                    <br />Shape 4</center>
+                            </td>
+                            <td>
+                                <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                                    <br />Shape 5</center>
+                            </td>
+                            <td>
+                                <center><img src="Shapes/Shape.bmp" width=50 height=50 />
+                                    <br />Shape 6</center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <input id="textValue" />
+                            <button id="newText">New Text</button>
+                            <input id="imgUrl" />
+                            <button id="newImg">New Image</button>
+                        </tr>
+                    </table>
 
 
-		</div>
+                </div>
 
             </div>
             <div id="users_pane">
-                <center><b>Users Currently Editing</b></center> <br />
+                <center><b>Users Currently Editing</b></center>
+                <br />
                 <table style="width:100%" id="user_table">
 
                 </table>
@@ -96,29 +125,42 @@
         </div>
         <div id="right_pane">
             <div id="shape_properties_pane">
-                <center><b>Shape Properties</b></center> <br />
+                <center><b>Shape Properties</b></center>
+                <br />
                 <table>
                     <tr>
-                        <td>Property 1 </td>
-                        <td><input type="text" /></td>
+                        <td>Owner</td>
+                        <td>
+                            <b id="shape_owner">none</b>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Property 2</td>
-                        <td><input type="checkbox" /></td>
+                        <td>Rotation</td>
+                        <td>
+                          <input id="rotateValue" type="number" value="0" />
+                          <button id="rotateButton">Rotate</button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Property 3</td>
-                        <td><input type="color" /></td>
+                        <td>Fill</td>
+                        <td>
+                            <input id="fillValue" type="color" value="red" />
+                            <button id="fillButton">Fill</button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Property 4</td>
-                        <td><input type="number" /></td>
+                        <td>Scale</td>
+                        <td>
+                            <input id="scaleValue" type="number" value="1" />
+                            <button id="scaleButton">Scale</button>
+                        </td>
                     </tr>
                 </table>
             </div>
             <div id="chat_pane">
                 <div id="chat_pane_content_box">
-                    <center><b>Chat</b></center> <br />
+                    <center><b>Chat</b></center>
+                    <br />
                     <!--
                     <b>User1</b>: I'm typing some stuff <br />
                     <b>User2</b>: This is a message <br />
@@ -131,7 +173,8 @@
                     !-->
                 </div>
                 <div id="chat_pane_message_box">
-                    <input id="chat_textbox" type="text" /> <input style="float:right;" id="chat_submit" type="submit" value="Send" />
+                    <input id="chat_textbox" type="text" />
+                    <input style="float:right;" id="chat_submit" type="submit" value="Send" />
                 </div>
             </div>
         </div>
@@ -142,5 +185,6 @@
 
 
 
-  </body>
+</body>
+
 </html>

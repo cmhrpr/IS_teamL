@@ -29,61 +29,6 @@ app.get('/Client.js', function(req, res) {
     });
 });
 
-
-
-
-/* Send the Client.js file to the client*/
-app.get('/script.js', function(req, res) {
-    res.sendFile('script.js', {
-        root: __dirname
-    });
-});
-
-
-/* Send the Client.js file to the client*/
-app.get('/style.css', function(req, res) {
-    res.sendFile('style.css', {
-        root: __dirname
-    });
-});
-
-app.get('/Images/Cursor.bmp', function(req, res) {
-    res.sendFile('Images/Cursor.bmp', {
-        root: __dirname
-    });
-  });
-
-  app.get('/UserIcons/Icon1.bmp', function(req, res) {
-      res.sendFile('/UserIcons/Icon1.bmp', {
-          root: __dirname
-      });
-    });
-
-    app.get('/UserIcons/Icon3.bmp', function(req, res) {
-        res.sendFile('/UserIcons/Icon1.bmp', {
-            root: __dirname
-        });
-      });
-      app.get('/UserIcons/Icon3.bmp', function(req, res) {
-          res.sendFile('/UserIcons/Icon1.bmp', {
-              root: __dirname
-          });
-        });
-
-        app.get('/UserIcons/Icon4.bmp', function(req, res) {
-            res.sendFile('/UserIcons/Icon1.bmp', {
-                root: __dirname
-            });
-          });
-
-
-  app.get('/Images/DrawTool.bmp', function(req, res) {
-      res.sendFile('/Images/DrawTool.bmp', {
-          root: __dirname
-      });
-    });
-
-
 /* Send the shared-shapes.html file to the client */
 app.get('/', function(req, res) {
     res.sendFile('shared-shapes.html', {
@@ -91,10 +36,9 @@ app.get('/', function(req, res) {
     });
 });
 
-users = []
 
 /* Figure out if the user if joining an existing whiteboard */
-app.get('/document/:docId', function(req, res) {
+app.get('/:docId', function(req, res) {
     // first we need to see if this document exists
     var documentId = req.params.docId;
     if (documentId != "client.js") {
@@ -147,6 +91,7 @@ io.on('connection', function(socket) {
   var roomId = 'main room'
   socket.join(roomId);
 
+  console.log(socket.handshake.query);
 
   // send existing users
   socket.emit('existing_users', {users: Object.keys(allClients)});
@@ -160,17 +105,24 @@ io.on('connection', function(socket) {
     socket.emit('user_id', clientId)
 
     socket.on('create', function(msg) {
+      var owner = msg.owner;
+      msg = msg.element;
         console.log('create: ' + msg + "; assigning id m-" + id);
+
         doc.elements["m-" + id] = {
             id: "m-" + id,
             element: msg,
             drag: '',
+            fill: '',
             tranform: '',
-            type: 'shape'
+            type: 'shape',
+            rotate: '',
+            owner: owner
         };
         io.emit('create', {
             id: "m-" + id++,
-            element: msg
+            element: msg,
+            owner: owner
         });
     });
     console.log('UserID: ' + clientId + ' joined the server')
@@ -189,13 +141,17 @@ io.on('connection', function(socket) {
           id: "m-" + id,
           element: msg,
           drag: '',
+          fill: '',
           tranform: '',
-          type: 'text'
+          type: 'text',
+          rotate: '',
+          owner: owner
       };
 
-      io.emit('create_text', {
+      io.emit('create', {
           id: "m-" + id++,
-          element: msg
+          element: msg,
+          owner: owner
       });
     });
     socket.on('create_image', function(msg) {
@@ -205,11 +161,16 @@ io.on('connection', function(socket) {
           element: msg,
           drag: '',
           tranform: '',
-          type: 'image'
+          type: 'image',
+          fill: '',
+          rotate: '',
+          owner: owner
       };
-      io.emit('create_image', {
+
+      io.emit('create', {
           id: "m-" + id++,
-          element: msg
+          element: msg,
+          owner: owner
       });
     });
     socket.on('drag-move', function(msg) {
@@ -226,10 +187,21 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('drag-stop', msg);
     });
     socket.on('transform', function(msg) {
-        console.log('transform: ' + msg);
+        console.log('transform: ');
+        console.log(msg)
+
         // update the elements
+        doc.elements[msg.id].transform = msg;
 
         io.emit('transform', msg);
+    });
+    socket.on('fill', function(msg) {
+        console.log('fill: ');
+        console.log(msg)
+        // update the elements
+        doc.elements[msg.id].fill = msg;
+        console.log(doc.elements[msg.id].fill )
+        io.emit('fill', msg);
     });
     socket.on('remove', function(oId) {
       console.log(doc.elements)
@@ -238,7 +210,7 @@ io.on('connection', function(socket) {
       console.log(oId);
 
       console.log(oId['id'].replace("m-", ""));
-      delete doc.elements[oId['id'].replace("m-", "")];
+      delete doc.elements[oId['id']];
       socket.volatile.broadcast.emit('remove', oId);
     })
     var shapeKeys = Object.keys(doc.elements);

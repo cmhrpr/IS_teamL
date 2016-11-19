@@ -7,6 +7,14 @@
     shapes pane - users pane border:        400 px from the top
 */
 
+* {
+   margin: 0;
+   padding: 0;
+}
+
+#canvas {
+   display: block;
+}
 * { /* Use border-box sizing instead of content-box sizing */
   box-sizing: border-box;
   -moz-box-sizing: border-box;
