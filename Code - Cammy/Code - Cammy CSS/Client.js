@@ -1,3 +1,37 @@
+
+var cUserId = '';
+
+tool_enum = {
+    SELECTOR : 1,
+    DRAWTOOL : 2
+}
+
+var currently_selected_tool;
+
+function init(){
+    click_selector_tool();
+}
+
+function click_selector_tool(){
+    document.getElementById("selector_icon_div").style.backgroundColor = "lightblue";
+    document.getElementById("selector_text_div").style.backgroundColor = "lightblue";
+    if(currently_selected_tool == tool_enum.DRAWTOOL){
+        document.getElementById("drawtool_icon_div").style.backgroundColor = "white";
+        document.getElementById("drawtool_text_div").style.backgroundColor = "white";
+    }
+    currently_selected_tool = tool_enum.SELECTOR
+}
+function click_draw_tool(){
+    document.getElementById("drawtool_icon_div").style.backgroundColor = "lightblue";
+    document.getElementById("drawtool_text_div").style.backgroundColor = "lightblue";
+    if(currently_selected_tool == tool_enum.SELECTOR){
+        document.getElementById("selector_icon_div").style.backgroundColor = "white";
+        document.getElementById("selector_text_div").style.backgroundColor = "white";
+    }
+    currently_selected_tool = tool_enum.DRAWTOOL
+}
+
+/* Shapes/images code */
 $(function() {
     var socket = io();
 
@@ -60,11 +94,12 @@ $(function() {
 
 
     function createNewText(tId, text) {
-      $( '<div id="'+ tId +'"  class="draggable editable">' + text +'</div>' ).appendTo( '#canvas_area' );
+      $( '<div id="'+ tId +'"  class="draggable editable">' + text +'</div>' ).appendTo( '#drawing' );
 
       $("#" + tId)
           .draggable()
           .click(function() {
+
             // sets text element as selected and makes editable
 
               select($(this));
@@ -87,28 +122,35 @@ $(function() {
 
     function createText(msg) {
 
-      $( '<div id="'+ msg.id +'"  class="draggable">' + msg.element +'</div>' ).appendTo( '#canvas_area' );
+      $( '<div id="'+ msg.id +'"  class="draggable">' + msg.element +'</div>' ).appendTo( '#drawing' );
 
       /* when we start dragging an element */
       $("#" + msg.id).draggable({
           /* emit a drag-move through Socket when dragging */
           drag: function(event, ui) {
+            if (currently_selected_tool == 1) {
+              console.log("CURRENTLY SELECTED TOOL " + currently_selected_tool)
+
               socket.emit('drag-move', {
                   id: event.target.id,
                   left: ui.position.left,
                   top: ui.position.top
               });
+            }
 
               $(this).draggable('option', 'disabled', false);
               $(this).attr('contenteditable', 'false');
           },
           /* emit a drag-stop through Socket when stopped dragging */
           stop: function(event, ui) {
+            if (currently_selected_tool == 1) {
+              console.log("CURRENTLY SELECTED TOOL " + currently_selected_tool)
               socket.emit('drag-stop', {
                   id: event.target.id,
                   left: ui.position.left,
                   top: ui.position.top
               });
+            }
           }
       });
 
@@ -128,31 +170,13 @@ $(function() {
           $(this).attr('contenteditable', 'true');
       });
 
-    /*  $("#" + msg.id)
-          .draggable()
-          .click(function() {
-            // sets text element as selected and makes editable
-
-              select($(this));
-              if ($(this).is('.ui-draggable-dragging')) {
-                  return;
-              }
-              $(this).draggable("option", "disabled", true);
-              $(this).attr('contenteditable', 'true');
-          })
-
-      .blur(function() {
-        // stops text from being editable while blurred
-          $(this).draggable('option', 'disabled', false);
-          $(this).attr('contenteditable', 'false');
-      });*/
 
     }
 
 
     function createImage(msg) {
 
-      $( '<img id="'+ msg.id +'"  class="draggable" src="' + msg.element +'">' ).appendTo( '#canvas_area' );
+      $( '<img id="'+ msg.id +'"  class="draggable" src="' + msg.element +'">' ).appendTo( '#drawing' );
 
       /* when we start dragging an element */
       $("#" + msg.id).draggable({
@@ -193,29 +217,14 @@ $(function() {
           $(this).attr('contenteditable', 'true');
       });
 
-    /*  $("#" + msg.id)
-          .draggable()
-          .click(function() {
-            // sets text element as selected and makes editable
 
-              select($(this));
-              if ($(this).is('.ui-draggable-dragging')) {
-                  return;
-              }
-              $(this).draggable("option", "disabled", true);
-              $(this).attr('contenteditable', 'true');
-          })
-
-      .blur(function() {
-        // stops text from being editable while blurred
-          $(this).draggable('option', 'disabled', false);
-          $(this).attr('contenteditable', 'false');
-      });*/
 
     }
     // create an element
     function createElement(msg) {
       console.log("creating shape " + msg.id )
+
+      console.log(msg)
         var e = $(msg.element);
         e.attr('id', msg.id);
 
@@ -223,38 +232,45 @@ $(function() {
         e.draggable({
             /* emit a drag-move through Socket when dragging */
             drag: function(event, ui) {
+              if (currently_selected_tool == 1) {
+                console.log("CURRENTLY SELECTED TOOL " + currently_selected_tool)
+                select(e);
+
                 socket.emit('drag-move', {
                     id: event.target.id,
                     left: ui.position.left,
                     top: ui.position.top
                 });
+              }
             },
             /* emit a drag-stop through Socket when stopped dragging */
             stop: function(event, ui) {
+              if (currently_selected_tool == 1) {
+                console.log("CURRENTLY SELECTED TOOL " + currently_selected_tool)
+                select(e);
+
                 socket.emit('drag-stop', {
                     id: event.target.id,
                     left: ui.position.left,
                     top: ui.position.top
                 });
+              }
             }
         });
 
 
         e.click(function() {
-            socket.emit('transform', {
-                id: this.id,
-                transform: $("input[name=transform]:checked").val(),
-                fill: $("input[name=fill]:checked").val()
-            });
-
             select(e);
         });
 
-        $("#canvas_area").append(e);
+        $("#drawing").append(e);
     }
 
     function createExistingElement(msg) {
       console.log("creating shape " + msg['id'] )
+      console.log("AND THE MESSAGE")
+      console.log(msg)
+
         var e = $(msg['element']);
         e.attr('id', msg['id']);
 
@@ -280,16 +296,10 @@ $(function() {
 
 
         e.click(function() {
-            socket.emit('transform', {
-                id: this.id,
-                transform: $("input[name=transform]:checked").val(),
-                fill: $("input[name=fill]:checked").val()
-            });
-
             select(e);
         });
 
-        $("#canvas_area").append(e);
+        $("#drawing").append(e);
     }
 
     function dragElement(msg) {
@@ -314,8 +324,19 @@ $(function() {
       }
 
       icon = icon + ".png";
-      $("#user_table").append("<tr id='user" + userId + "'><td><center><img src='" + icon +"' width=50 height=50 /></center></td><td>guest"+ userId +"</td></tr>")
+      $("#user_table").append("<tr id='user" + userId + "'><td><center><img src='" + icon +"' width=50 height=50 /></center></td><td id='guest"+ userId +"'>guest"+ userId +"</td></tr>")
+      console.log("USER ID IS " + userId)
+      console.log("CUSERID IS " + cUserId)
+      if(userId == cUserId)$("#guest"+ userId).css("background-color", "red")
 
+
+    }
+    var chatId = 0;
+
+    function addChat(msg) {
+      $("#chat_pane_content_box").append("<tr id='chat" + chatId + "'><td><center></td><td>guest"+ msg.userId +": " + msg.chat +"</td></tr>")
+      if(msg.userId == cUserId)$("#chat"+ chatId).css("background-color", "green")
+      chatId++;
 
     }
 
@@ -331,6 +352,12 @@ $(function() {
             .css("fill", msg.fill);
     }
 
+    socket.on('user_id', function(msg) {
+      userId = msg;
+      cUserId = msg;
+      $("#title").append("<b>User " + cUserId + "</b>")
+    });
+
     socket.on('create', function(msg) {
         createElement(msg);
     });
@@ -340,6 +367,12 @@ $(function() {
 
        addUser(msg.userId)
     })
+
+    socket.on('chat_message', function(msg) {
+      addChat(msg);
+    })
+
+
 
 
     socket.on('existing_users', function(msg) {
@@ -363,12 +396,36 @@ $(function() {
         console.log('creating shape ' + i )
 
         console.log(msg.shapes[thisEl])
+        if (msg.shapes[thisEl].type == 'shape') {
         createExistingElement(msg.shapes[thisEl]);
+      } else if (msg.shapes[thisEl].type == 'text') {
+        createText(msg.shapes[thisEl]);
+
+      } else if (msg.shapes[thisEl].type == 'text') {
+        createImage(msg.shapes[thisEl]);
+
+      }
+
+        if (msg.shapes[thisEl].drag != '') {
+          console.log('need to drag')
+          console.log(msg.shapes[thisEl])
+          dragElement(msg.shapes[thisEl].drag)
+        }
+
+        if (msg.shapes[thisEl].transform != '') {
+          console.log(msg.shapes[thisEl].transform)
+          console.log('need to transform')
+          console.log(msg.shapes[thisEl])
+          transformElement(msg.shapes[thisEl].transform)
+        }
+
 
       }
 
        //addUser(msg.userId)
     })
+
+
     socket.on('user_left', function(msg) {
       console.log('user ' + msg.userId + ' left the server')
 
@@ -459,6 +516,9 @@ $(function() {
     /* Add a click event to each child of templates */
     $("#templates")
         .children()
+        .children()
+  .children()
+  .children()
         .click(function() {
             socket.emit('create', $(this).html());
         });
@@ -467,6 +527,39 @@ $(function() {
         $("#newText").click(function() {
 
           socket.emit('create_text', $("#textValue").val());
+
+        });
+
+        $("#fillButton").click(function() {
+          var fillValue = $("#fillValue").val();
+          console.log("filling");
+          console.log(selected);
+
+          if (selected != null) {
+            socket.emit('transform', {
+                id: selected.attr('id'),
+                fill: fillValue,
+            });
+          }
+        });
+
+
+        $("#scaleButton").click(function() {
+          var scaleVal = $("#scaleValue").val();
+          console.log("scaling");
+          console.log(selected);
+
+          if (selected != null) {
+            socket.emit('transform', {
+                id: selected.attr('id'),
+                transform: "scale(" + scaleVal + ")",
+            });
+          }
+        });
+
+        $("#chat_submit").click(function() {
+
+          socket.emit('chat_message', {chat: $("#chat_textbox").val(), userId: cUserId});
 
         });
 
@@ -479,3 +572,118 @@ $(function() {
 
 
 });
+
+
+
+
+/* Canvas code */
+document.addEventListener("DOMContentLoaded", function() {
+   var mouse = {
+      click: false,
+      move: false,
+      pos: {x:0, y:0},
+      pos_prev: false
+   };
+   // get canvas element and create context
+   var canvas  = document.getElementById('drawing');
+   var context = canvas.getContext('2d');
+   var width   = window.innerWidth;
+   var height  = window.innerHeight;
+   var socket  = io.connect();
+   var $color =  document.getElementById('color');
+   var $size  = document.getElementById('size');
+   var $clear = document.getElementById('clear');
+   var $count = document.getElementById('count');
+
+
+
+   // set canvas to full browser width/height
+   canvas.width = width;
+   canvas.height = height;
+
+   // register mouse event handlers
+   canvas.onmousedown = function(e){ mouse.click = true; };
+   canvas.onmouseup = function(e){ mouse.click = false; };
+
+   // get the starting size
+	size = $size.options[$size.selectedIndex].value;
+	color = $color.options[$color.selectedIndex].value.toLowerCase();
+
+   canvas.onmousemove = function(e) {
+      // normalize mouse position to range 0.0 - 1.0
+      mouse.pos.x = e.clientX / width;
+      mouse.pos.y = e.clientY / height;
+      mouse.move = true;
+   };
+
+   $size.addEventListener('change', function(e) {
+		size = $size.options[$size.selectedIndex].value
+		touchdown = false
+	}, false)
+
+	$color.addEventListener('change', function(e) {
+		color = $color.options[$color.selectedIndex].value.toLowerCase()
+		touchdown = false
+	}, false)
+
+   $clear.addEventListener('click', function(e) {
+		clearScreen()
+		socket.emit('clear');
+	}, false)
+
+
+   // draw line received from server
+	socket.on('draw_line', function (data) {
+      var line = data.line;
+      context.beginPath();
+	  context.lineWidth = line[2];
+	  context.strokeStyle = line[3];
+      context.moveTo(line[0].x * width, line[0].y * height);
+      context.lineTo(line[1].x * width, line[1].y * height);
+      context.stroke();
+   });
+
+   socket.on('clear', function () {
+      clearScreen()
+   });
+
+   socket.on('message', function(data){
+	   $count.innerHTML = 'Current Users: ' + data.count;
+   });
+
+   function clearScreen() {
+		context.clearRect(0,0,width,height)
+	}
+
+   // main loop, running every 25ms
+   function mainLoop() {
+      // check if the user is drawing
+      if (mouse.click && mouse.move && mouse.pos_prev) {
+        if (currently_selected_tool == 2) {
+         // send line to to the server
+         socket.emit('draw_line', { line: [ mouse.pos, mouse.pos_prev, size, color] });
+         mouse.move = false;
+       }
+      }
+      mouse.pos_prev = {x: mouse.pos.x, y: mouse.pos.y};
+      setTimeout(mainLoop, 25);
+   }
+   mainLoop();
+});
+
+
+
+function dlCanvas() {
+	  var canvas = document.getElementById('drawing');
+	  var dt = canvas.toDataURL('image/png');
+	  /* Change MIME type to trick the browser to downlaod the file instead of displaying it */
+	  dt = dt.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+
+	  /* In addition to <a>'s "download" attribute, you can define HTTP-style headers */
+	  dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
+
+	  this.href = dt;
+};
+window.onload=function(){
+	document.getElementById("dl").addEventListener('click', dlCanvas, false);
+}
