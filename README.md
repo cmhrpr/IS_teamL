@@ -10,6 +10,6 @@ task list:
 - Make shapes transferable through sockets
 - Text boxes
 - Make text boxes transferable through sockets
-- Color changing
+- Color changing +
 - Download
 - Select tool
