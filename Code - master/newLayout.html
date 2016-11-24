@@ -1,9 +1,12 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="js/brush.js"></script>
+    <script src="js/jscolor.min.js"></script>
 
 </head>
 <body>
@@ -25,8 +28,13 @@
 	<div id="download">
 	</div>
 	<div id="tools_menu">
+        <div id="bucket"></div>
 	</div>
 	<div id="sliders_menu">
+        <input class="jscolor" value="ab2567">
+        <div id="slider">
+            <div id="custom-handle" class="ui-slider-handle"></div>
+        </div>
 	</div>
 	<div id="canvas">
 
