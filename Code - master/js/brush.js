@@ -35,8 +35,6 @@ $(document).ready(function(){
 
                 color = $('.jscolor').val();
                 size = $('#custom-handle').html();
-                console.log($(window).height() +" "+ $(window).width());
-                console.log(x +" "+ y);
                 currentElement[did] = {"x": x, "y":y, "bgcolor":color, "size":size};
 
                 $("#canvas").append("<div class='circle' style='position: absolute; top: "+(y)+"%; left: "+(x)+"%; background-color:"+color+"; border-radius: 50px; width: "+size+"px; height: "+size+"px'></div>");
