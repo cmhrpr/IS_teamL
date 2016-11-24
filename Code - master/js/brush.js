@@ -28,17 +28,18 @@ $(document).ready(function(){
             if (moving) {
                 //var msg = "Handler for .mousemove() called at ";
 
-                x = event.clientX;     // Get the horizontal coordinate
-                y = event.clientY;     // Get the vertical coordinate
+                x = event.clientX / $("#canvas").width() * 100 - 22;     // Get the horizontal coordinate
+                y = event.clientY / $("#canvas").height() * 100 - 10;     // Get the vertical coordinate
                 did++;
 
 
                 color = $('.jscolor').val();
                 size = $('#custom-handle').html();
-
+                console.log($(window).height() +" "+ $(window).width());
+                console.log(x +" "+ y);
                 currentElement[did] = {"x": x, "y":y, "bgcolor":color, "size":size};
 
-                $("#canvas").append("<div class='circle' style='position: absolute; top: "+(y- 130)+"px; left: "+(x-310)+"px; background-color:"+color+"; border-radius: 50px; width: "+size+"px; height: "+size+"px'></div>");
+                $("#canvas").append("<div class='circle' style='position: absolute; top: "+(y)+"%; left: "+(x)+"%; background-color:"+color+"; border-radius: 50px; width: "+size+"px; height: "+size+"px'></div>");
             }
         })
         .mousedown(function() {
