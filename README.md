@@ -11,5 +11,5 @@ task list:
 - Text boxes
 - Make text boxes transferable through sockets
 - Color changing +
-- Download
+- Download +
 - Select tool
