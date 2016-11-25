@@ -1,9 +1,9 @@
-io.on('existing_users', function (data) {
+socket.on('existing_users', function (data) {
     console.log(data);
     // Need to receive beid, teid, data of both
 });
 
-io.on('draw_line', function (data) {
+socket.on('draw_line', function (data) {
     console.log("Client received new line!")
     console.log(data);
     // Need to receive beid, teid, data of both
@@ -22,3 +22,4 @@ io.on('draw_line', function (data) {
 
     }
 });
+
