@@ -7,6 +7,7 @@ function initBrush(tool) {
     var did; // dot ID
     var color;
     var size;
+	var textoutput;
     var brushElements = {};
     var currentElement;
     var handle;
@@ -58,6 +59,22 @@ function initBrush(tool) {
             });
             $('#custom-handle').html(100);
             break;
+			
+		case "texttool":
+            console.log("tool - "+ tool);
+            handle = $( "#custom-handle" );
+            $( "#slider" ).slider({
+                value: '100',
+                create: function() {
+                    handle.text( $( this ).slider( "value" ) );
+                },
+                slide: function( event, ui ) {
+                    handle.text( ui.value );
+                }
+            });
+            $('#custom-handle').html(100);
+            break;
+			
         default:
             console.log("???");
 
@@ -80,7 +97,33 @@ function initBrush(tool) {
             }
         })
         .mousedown(function() {
-            moving = true;
+			
+			//Text tool still relies on size, colour and text input but can't be dragged
+			//Different behaviour required
+			if (tool == "texttool"){
+				moving = false;
+				x = event.clientX / $("#canvas").width() * 100 - 22;     // Get the horizontal coordinate
+                y = event.clientY / $("#canvas").height() * 100 - 10;
+				color = $('.jscolor').val();
+				textoutput = document.getElementById('jstextbox').value;
+                size = $('#custom-handle').html();
+				console.log("textoutput - " + textoutput);
+				
+				var div = document.createElement('div');
+				div.style.fontFamily = "verdana";
+				div.style.position = "absolute";
+				div.style.left = x+"%";
+				div.style.top = y+"%";
+				div.style.color = color;
+				div.style.fontSize = size;
+				div.innerHTML = textoutput;
+				
+				$("#canvas").append(div);
+				
+			} else {
+				moving = true;
+			}
+			
             beid++;
             did = 0;
             currentElement = {};

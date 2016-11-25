@@ -221,6 +221,13 @@ div{
     width: 60%;
 }
 
+.jstext {
+    position: absolute;
+    left: 20%;
+    top: 40%;
+    width: 60%;
+}
+
 #size-label {
     position: absolute;
     top: 60%;

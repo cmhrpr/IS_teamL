@@ -21,6 +21,9 @@ function initTool(a) {
         case "dropper":
             initSelector("dropper");
             break;
+		case "texttool":
+            initBrush("texttool");
+            break;
         default:
             console.log(a);
     }
