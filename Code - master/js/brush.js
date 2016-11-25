@@ -1,19 +1,5 @@
-$( function() {
-    var handle = $( "#custom-handle" );
-    $( "#slider" ).slider({
-        value: '20',
-        create: function() {
-            handle.text( $( this ).slider( "value" ) );
-        },
-        slide: function( event, ui ) {
-            handle.text( ui.value );
-        }
-    });
-} );
+function initBrush(tool) {
 
-$(document).ready(function(){
-
-    // ----------------------------------PAINTBRUSH--------------------------------------
     var moving = false;
     var x;
     var y;
@@ -23,6 +9,60 @@ $(document).ready(function(){
     var size;
     var brushElements = {};
     var currentElement;
+    var handle;
+
+    $("#canvas").unbind();
+
+    switch (tool) {
+        case "brush":
+            console.log("tool - "+ tool);
+            handle = $( "#custom-handle" );
+            $( "#slider" ).slider({
+                value: '20',
+                create: function() {
+                    handle.text( $( this ).slider( "value" ) );
+                },
+                slide: function( event, ui ) {
+                    handle.text( ui.value );
+                }
+            });
+            $('#custom-handle').html(20);
+            break
+
+        case "pencil":
+            console.log("tool - "+ tool);
+            handle = $( "#custom-handle" );
+            $( "#slider" ).slider({
+                value: '5',
+                create: function() {
+                    handle.text( $( this ).slider( "value" ) );
+                },
+                slide: function( event, ui ) {
+                    handle.text( ui.value );
+                }
+            });
+            $('#custom-handle').html(5);
+            break;
+
+        case "spray":
+            console.log("tool - "+ tool);
+            handle = $( "#custom-handle" );
+            $( "#slider" ).slider({
+                value: '100',
+                create: function() {
+                    handle.text( $( this ).slider( "value" ) );
+                },
+                slide: function( event, ui ) {
+                    handle.text( ui.value );
+                }
+            });
+            $('#custom-handle').html(100);
+            break;
+        default:
+            console.log("???");
+
+    }
+
     $("#canvas")
         .mousemove(function() {
             if (moving) {
@@ -52,13 +92,6 @@ $(document).ready(function(){
             brushElements[beid] = currentElement;
             console.log(brushElements);
         });
-    // --------------------------------/PAINTBRUSH------------------------------------------
+}
 
 
-
-
-    // -----------------------------------BUCKET--------------------------------------------
-
-
-    // ----------------------------------/BUCKET--------------------------------------------
-});
