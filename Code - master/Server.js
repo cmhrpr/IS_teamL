@@ -150,7 +150,7 @@ io.on('connection', function(socket) {
 
         line_history[key] = value;
         console.log(entry);
-        socket.emit('draw_line', entry);
+        io.emit('draw_line', entry);
     });
 
     socket.on('clear', function() {

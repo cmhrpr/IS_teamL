@@ -13,6 +13,7 @@ function initBrush(tool) {
     var currentElement;
     var handle;
 
+
     $("#canvas").unbind();
 
     switch (tool) {
