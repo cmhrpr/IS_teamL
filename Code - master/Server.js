@@ -166,6 +166,12 @@ io.on('connection', function(socket) {
         io.emit('wipe_stroke', key);
     });
 
+    socket.on('paint', function(data) {
+        console.log("Request to paint!");
+
+        io.emit('paint_it', data);
+    });
+
 
 
     // send existing users
