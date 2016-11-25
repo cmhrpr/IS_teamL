@@ -10,6 +10,6 @@ task list:
 - Make shapes transferable through sockets
 - Text boxes
 - Make text boxes transferable through sockets
-- Select tool
+- Select tool +
 - Tab switching
 - Put in the icons from the design
