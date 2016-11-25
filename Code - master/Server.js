@@ -158,6 +158,15 @@ io.on('connection', function(socket) {
         io.emit('clear');
     });
 
+    socket.on('remove_stroke', function(data) {
+        console.log("Request to delete a stroke!");
+        var key = data["strokeID"];
+        delete line_history[key];
+        io.emit('wipe_stroke', key);
+    });
+
+
+
     // send existing users
     socket.emit('existing_users', {
         users: Object.keys(allClients)
@@ -197,20 +206,20 @@ io.on('connection', function(socket) {
     })
 
 
-    socket.on('create', function(msg) {
-        console.log('create: ' + msg + "; assigning id m-" + id);
-        doc.elements["m-" + id] = {
-            id: "m-" + id,
-            element: msg,
-            drag: '',
-            tranform: '',
-            type: 'shape'
-        };
-        io.emit('create', {
-            id: "m-" + id++,
-            element: msg
-        });
-    });
+    // socket.on('create', function(msg) {
+    //     console.log('create: ' + msg + "; assigning id m-" + id);
+    //     doc.elements["m-" + id] = {
+    //         id: "m-" + id,
+    //         element: msg,
+    //         drag: '',
+    //         tranform: '',
+    //         type: 'shape'
+    //     };
+    //     io.emit('create', {
+    //         id: "m-" + id++,
+    //         element: msg
+    //     });
+    // });
     socket.on('drag-move', function(msg) {
         console.log('drag-move: ' + msg.id + " to " + msg.top + " " + msg.left);
         console.log(msg);

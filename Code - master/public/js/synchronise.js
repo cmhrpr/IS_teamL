@@ -4,7 +4,7 @@ socket.on('existing_users', function (data) {
 });
 
 socket.on('draw_line', function (data) {
-    console.log("Client received new line!")
+    console.log("Client received new line!");
     console.log(data);
     // Need to receive beid, teid, data of both
     if (data in brushElements){
@@ -23,3 +23,6 @@ socket.on('draw_line', function (data) {
     }
 });
 
+socket.on('wipe_stroke', function (data) {
+    $(".beid"+data).remove();
+});

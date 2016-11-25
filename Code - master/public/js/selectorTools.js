@@ -15,9 +15,14 @@ function initSelector(tool){
             break;
         case "eraser":
             $("#canvas").click(function(e) {
-                $("."+e.target.classList[1]).remove();
 
-                // SOCKET EMIT HERE (remove beid from the dictionary)
+                var beid = e.target.classList[1];
+                beid = beid.split("beid");
+                console.log(beid);
+                $("."+e.target.classList[1]).remove();
+                socket.emit('remove_stroke', {"strokeID": beid[1]});
+                delete brushElements[beid[1]];
+                //SOCKET EMIT HERE (remove beid from the dictionary)
             });
             break;
         case "select":
