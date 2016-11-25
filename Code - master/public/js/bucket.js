@@ -3,6 +3,6 @@ function initBucket(){
     $("#canvas").unbind();
     $("#canvas").click(function() {
         $("#canvas").css("background-color",$('.jscolor').val());
-        // SOCKET EMIT HERE
+        socket.emit('paint', {"color": $('.jscolor').val()});
     })
 }

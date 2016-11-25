@@ -39,3 +39,11 @@ socket.on('draw_text', function (data) {
 socket.on('wipe_stroke', function (data) {
     $(".beid"+data).remove();
 });
+
+
+socket.on('paint_it', function (data) {
+    console.log(data);
+    var color = "#"+data["color"];
+    $("#canvas").css("background-color", color);
+
+});
