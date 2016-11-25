@@ -2,14 +2,14 @@
 super interactive systems project
 
 task list:
-- Adjustable paintbrush
+- Adjustable paintbrush +
 - Make paintbrush transferable through sockets
 - Chat
 - Current users
-- adjustable shapes
+- Adjustable shapes
 - Make shapes transferable through sockets
 - Text boxes
 - Make text boxes transferable through sockets
-- Color changing +
-- Download
 - Select tool
+- Tab switching
+- Put in the icons from the design
