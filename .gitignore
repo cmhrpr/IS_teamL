@@ -1,2 +1,8 @@
 
 paintbrush/node_modules/*
+*.md
+Code - master/node_modules/socket.io/node_modules/socket.io-adapter/index.js
+*.xml
+Code - master/.idea/workspace.xml
+Code - master/node_modules/*
+Code - master/.idea/*
