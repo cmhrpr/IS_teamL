@@ -91,6 +91,7 @@ function initBrush(tool) {
             console.log(beid);
             brushElements[beid] = currentElement;
             console.log(brushElements);
+            // SOCKET EMIT HERE
         });
 }
 

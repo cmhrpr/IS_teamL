@@ -9,6 +9,12 @@ function initTool(a) {
         case "spray":
             initBrush("spray");
             break;
+        case "bucket":
+            initBucket();
+            break;
+        case "eraser":
+            initEraser();
+            break;
         default:
             console.log(a);
     }
