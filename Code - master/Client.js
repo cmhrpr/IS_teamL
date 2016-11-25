@@ -1,11 +1,19 @@
 $(function() {
-    var socket = io();
+    var socket = io.connect();
 
 
 
     var elements = {};
     var shift = 0;
     var typing = 0;
+
+    $('form').submit(function(){
+        socket.emit('chat_message', $('#chat_textbox').val());
+        $('#chat_textbox').val('');
+        return false;
+    });
+
+
 
     function remove(_obj) {
         console.log("Beginning remove");
@@ -302,7 +310,11 @@ $(function() {
         console.log(oId['id']);
         var objectId = "#" + oId['id'];
         removeObject($(objectId));
-    })
+    });
+
+    socket.on('chat_message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+    });
 
     var selected = null;
 

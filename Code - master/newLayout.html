@@ -21,6 +21,7 @@
     <script type="text/javascript" src="js/rgb2hex.js"></script>
     <script type="text/javascript" src="js/selectorTools.js"></script>
     <script type="text/javascript" src="js/synchronise.js"></script>
+    <script type="text/javascript" src="Client.js"></script>
 
 
 
@@ -69,13 +70,13 @@
 	<div id="chat_pane">
 		<div id="chat_pane_content_box">
 			<center><b>Chat</b></center>
+            <ul id="messages"></ul>
 		</div>
 		<div id="chat_pane_message_box">
-			<input id="chat_textbox" type="text" />
+            <form action=""><input style="width: 75%" id="chat_textbox" type="text" /><button style="width: 25%">Send</button></form>
+
 		</div>
-		<div id="chat_pane_message_button">
-			<input style="float:right;" id="chat_submit" type="submit" value="Send" />
-		</div>
+
 	</div>
 </div>
 
