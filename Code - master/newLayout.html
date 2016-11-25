@@ -9,12 +9,20 @@
 
     <script src="js/init.js"></script>
     <script src="js/jscolor.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var io = io().connect('http://localhost');
+        var brushElements = {}; // Local storage for strokes
+    </script>
     <script type="text/javascript" src="js/brush.js"></script>
 	<script type="text/javascript" src="js/util.js"></script>
     <script type="text/javascript" src="js/tools.js"></script>
     <script type="text/javascript" src="js/bucket.js"></script>
     <script type="text/javascript" src="js/rgb2hex.js"></script>
     <script type="text/javascript" src="js/selectorTools.js"></script>
+    <script type="text/javascript" src="js/synchronise.js"></script>
+
+
 
 
 </head>
