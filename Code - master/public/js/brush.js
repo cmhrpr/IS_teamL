@@ -143,7 +143,7 @@ function initBrush(tool) {
                 moving = false;
                 //console.log(brushElements);
                 brushElements[beid] = currentElement;
-                io.broadcast.emit('draw_line', {"strokeID": beid, "data": currentElement});
+                io.emit('newstroke', {"strokeID": beid, "data": currentElement});
             });
     }
 

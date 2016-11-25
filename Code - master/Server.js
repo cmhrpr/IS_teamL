@@ -109,7 +109,7 @@ io.on('connection', function(socket) {
         var value = line_history[i];
         entry[key] = value;
         //console.log(entry);
-        socket.broadcast.emit('draw_line', entry);
+        socket.emit('draw_line', entry);
 
     }
 
@@ -141,7 +141,7 @@ io.on('connection', function(socket) {
     // });
 
 
-    socket.on('draw_line', function(data) {
+    socket.on('newstroke', function(data) {
         console.log("Received a new stroke!");
         var key = data["strokeID"];
         var value = data["data"]
@@ -150,7 +150,7 @@ io.on('connection', function(socket) {
 
         line_history[key] = value;
         console.log(entry);
-        socket.broadcast.emit('draw_line', entry);
+        socket.emit('draw_line', entry);
     });
 
     socket.on('clear', function() {

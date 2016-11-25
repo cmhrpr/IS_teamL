@@ -43,23 +43,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Server.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Server.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="854">
-              <caret line="150" column="34" lean-forward="true" selection-start-line="150" selection-start-column="34" selection-end-line="150" selection-end-column="34" />
+            <state relative-caret-position="990">
+              <caret line="152" column="15" lean-forward="false" selection-start-line="152" selection-start-column="15" selection-end-line="152" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="brush.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="brush.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/brush.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1075">
-              <caret line="145" column="36" lean-forward="false" selection-start-line="145" selection-start-column="36" selection-end-line="145" selection-end-column="44" />
+              <caret line="145" column="19" lean-forward="false" selection-start-line="145" selection-start-column="19" selection-end-line="145" selection-end-column="19" />
               <folding>
-                <marker date="1480074050648" expanded="true" signature="4084:4221" ph="..." />
+                <marker date="1480074491584" expanded="true" signature="4084:4221" ph="..." />
               </folding>
             </state>
           </provider>
@@ -275,12 +275,12 @@
       <option name="presentableId" value="Default" />
       <updated>1479998415476</updated>
       <workItem from="1479998417385" duration="127000" />
-      <workItem from="1479998550678" duration="46165000" />
+      <workItem from="1479998550678" duration="46745000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46292000" />
+    <option name="totallyTimeSpent" value="46872000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2560" y="-1416" width="2560" height="1416" extended-state="6" />
@@ -435,21 +435,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="854">
-          <caret line="150" column="34" lean-forward="true" selection-start-line="150" selection-start-column="34" selection-end-line="150" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/brush.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1075">
-          <caret line="145" column="36" lean-forward="false" selection-start-line="145" selection-start-column="36" selection-end-line="145" selection-end-column="44" />
+          <caret line="145" column="19" lean-forward="false" selection-start-line="145" selection-start-column="19" selection-end-line="145" selection-end-column="19" />
           <folding>
-            <marker date="1480074050648" expanded="true" signature="4084:4221" ph="..." />
+            <marker date="1480074491584" expanded="true" signature="4084:4221" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="152" column="15" lean-forward="false" selection-start-line="152" selection-start-column="15" selection-end-line="152" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
