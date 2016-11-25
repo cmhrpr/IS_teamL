@@ -23,7 +23,7 @@ app.use(express.static('public'))
 
 /* Send the Client.js file to the client*/
 app.get('/Client.js', function(req, res) {
-    res.sendFile('client.js', {
+    res.sendFile('Client.js', {
         root: __dirname
     });
 });
@@ -42,7 +42,7 @@ app.get('/', function(req, res) {
 app.get('/:docId', function(req, res) {
     // first we need to see if this document exists
     var documentId = req.params.docId;
-    if (documentId != "client.js") {
+    if (documentId != "Client.js") {
 
         console.log("documents before: ");
         console.log(documents);

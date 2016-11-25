@@ -1,5 +1,5 @@
 $(function() {
-    var socket = io.connect();
+
 
 
 
@@ -201,24 +201,6 @@ $(function() {
           $(this).attr('contenteditable', 'true');
       });
 
-    /*  $("#" + msg.id)
-          .draggable()
-          .click(function() {
-            // sets text element as selected and makes editable
-
-              select($(this));
-              if ($(this).is('.ui-draggable-dragging')) {
-                  return;
-              }
-              $(this).draggable("option", "disabled", true);
-              $(this).attr('contenteditable', 'true');
-          })
-
-      .blur(function() {
-        // stops text from being editable while blurred
-          $(this).draggable('option', 'disabled', false);
-          $(this).attr('contenteditable', 'false');
-      });*/
 
     }
     // create an element
@@ -317,8 +299,6 @@ $(function() {
     });
 
     var selected = null;
-
-
 
 
     /* We need to listen for keys */

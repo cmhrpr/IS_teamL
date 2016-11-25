@@ -144,7 +144,7 @@ function initBrush(tool) {
                 moving = false;
                 //console.log(brushElements);
                 brushElements[beid] = currentElement;
-                io.emit('newstroke', {"strokeID": beid, "data": currentElement});
+                socket.emit('newstroke', {"strokeID": beid, "data": currentElement});
             });
     }
 
