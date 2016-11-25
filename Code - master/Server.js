@@ -121,9 +121,10 @@ io.on('connection', function(socket) {
 
     socket.on('chat_message', function(msg) {
         console.log(msg);
-        allChats.push(msg);
+        var fullMSG = "User " +clientId + ": " +msg;
+        allChats.push(fullMSG);
         console.log(allChats);
-        io.emit('chat_message', msg);
+        io.emit('chat_message', fullMSG);
     });
 
     // report the number of users has increased
