@@ -102,9 +102,17 @@ io.on('connection', function(socket) {
     count++;
 
     // first send the history to the new client
-    socket.emit('draw_line',
-        line_history
-    );
+    for(i in line_history){
+
+        var entry = {};
+        var key = i;
+        var value = line_history[i];
+        entry[key] = value;
+        //console.log(entry);
+        socket.broadcast.emit('draw_line', entry);
+
+    }
+
 
     for (var i in allChats) {
       console.log(allChats[i]);
@@ -133,17 +141,16 @@ io.on('connection', function(socket) {
     // });
 
 
-    socket.on('newstroke', function(data) {
+    socket.on('draw_line', function(data) {
         console.log("Received a new stroke!");
         var key = data["strokeID"];
         var value = data["data"]
-        var entry = {key : value}
+        var entry = {};
+        entry[key] = value;
 
         line_history[key] = value;
-
-        socket.emit('draw_line', { data["strokeID"] : value});
-
-
+        console.log(entry);
+        socket.broadcast.emit('draw_line', entry);
     });
 
     socket.on('clear', function() {

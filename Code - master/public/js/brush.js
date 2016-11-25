@@ -125,7 +125,7 @@ function initBrush(tool) {
 
                     color = $('.jscolor').val();
                     size = $('#custom-handle').html();
-                    currentElement += {"x": x, "y":y, "bgcolor":color, "size":size};
+                    currentElement[did] =  {"x": x, "y":y, "bgcolor":color, "size":size};
 
                     $("#canvas").append("<div class='circle beid"+beid+"' style='position: absolute; top: "+(y)+"%; left: "+(x)+"%; background-color:"+color+"; border-radius: 50px; width: "+size+"px; height: "+size+"px'></div>");
                 }
@@ -143,7 +143,7 @@ function initBrush(tool) {
                 moving = false;
                 //console.log(brushElements);
                 brushElements[beid] = currentElement;
-                io.emit('newstroke', {"strokeID": beid, "data": currentElement});
+                io.broadcast.emit('draw_line', {"strokeID": beid, "data": currentElement});
             });
     }
 
