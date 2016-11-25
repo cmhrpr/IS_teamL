@@ -11,4 +11,5 @@ task list:
 - Text boxes
 - Make text boxes transferable through sockets
 - Select tool
-- Tab switching*
+- Tab switching
+- Put in the icons from the design
