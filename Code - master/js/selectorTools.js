@@ -38,11 +38,7 @@ function initSelector(tool){
             $("#canvas").click(function(e) {
                 console.log($(".jscolor"));
                 $(".jscolor").val(rgb2hex(e.target.style.backgroundColor));
-                $("#colorpicker").jscolor.show();
-                $(".jscolor").click();
-                $(".jscolor").mouseup();
-                // val(e.target.style.backgroundColor);
-                //$("."+active).css("border", "3px dotted red");
+                document.getElementById('colorpicker').jscolor.fromString(rgb2hex(e.target.style.backgroundColor));
 
             });
             break;
