@@ -66,7 +66,6 @@ function initBrush(tool) {
     $("#canvas")
         .mousemove(function() {
             if (moving) {
-                //var msg = "Handler for .mousemove() called at ";
 
                 x = event.clientX / $("#canvas").width() * 100 - 22;     // Get the horizontal coordinate
                 y = event.clientY / $("#canvas").height() * 100 - 10;     // Get the vertical coordinate
@@ -77,7 +76,7 @@ function initBrush(tool) {
                 size = $('#custom-handle').html();
                 currentElement[did] = {"x": x, "y":y, "bgcolor":color, "size":size};
 
-                $("#canvas").append("<div class='circle' style='position: absolute; top: "+(y)+"%; left: "+(x)+"%; background-color:"+color+"; border-radius: 50px; width: "+size+"px; height: "+size+"px'></div>");
+                $("#canvas").append("<div class='circle beid"+beid+"' style='position: absolute; top: "+(y)+"%; left: "+(x)+"%; background-color:"+color+"; border-radius: 50px; width: "+size+"px; height: "+size+"px'></div>");
             }
         })
         .mousedown(function() {

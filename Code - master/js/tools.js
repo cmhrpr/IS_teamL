@@ -13,7 +13,13 @@ function initTool(a) {
             initBucket();
             break;
         case "eraser":
-            initEraser();
+            initSelector("eraser");
+            break;
+        case "magic":
+            initSelector("magic");
+            break;
+        case "dropper":
+            initSelector("dropper");
             break;
         default:
             console.log(a);
