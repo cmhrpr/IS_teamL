@@ -35,6 +35,7 @@ $(document).ready(function(){
     $(".tools").click(function() {
         $("#"+active).css("background-color", "#700A6D");
         active = $(this)[0].id;
+        $("#tool-tab-icon").attr("src","images/editing-tools/usable/"+active+".png");
         $("#"+active).css("background-color", "#D8A910");
         initTool(active, $(this));
     })
