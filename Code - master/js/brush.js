@@ -84,10 +84,10 @@ function initBrush(tool) {
             beid++;
             did = 0;
             currentElement = {};
+            $("#canvas").css("cursor","default");
         })
         .mouseup(function() {
             moving = false;
-            console.log(beid);
             brushElements[beid] = currentElement;
             console.log(brushElements);
             // SOCKET EMIT HERE

@@ -18,11 +18,6 @@ function initSelector(tool){
                 $("."+e.target.classList[1]).remove();
 
                 // SOCKET EMIT HERE (remove beid from the dictionary)
-
-                active = e.target.classList[1];
-                console.log(active);
-                $("."+active).css("border", "3px dotted red");
-
             });
             break;
         case "select":
@@ -36,10 +31,8 @@ function initSelector(tool){
             break;
         case "dropper":
             $("#canvas").click(function(e) {
-                console.log($(".jscolor"));
                 $(".jscolor").val(rgb2hex(e.target.style.backgroundColor));
                 document.getElementById('colorpicker').jscolor.fromString(rgb2hex(e.target.style.backgroundColor));
-
             });
             break;
         default:
