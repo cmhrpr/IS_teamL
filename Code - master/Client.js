@@ -316,6 +316,17 @@ $(function() {
         $('#messages').append($('<li>').text(msg));
     });
 
+    socket.on('draw_line', function(msg){
+        Console.log("Drawing line!");
+        var beid = Object.keys(msg)[0];
+        var y = msg[beid]["y"];
+        var x = msg[beid]["x"];
+        var color = msg[beid]["bgcolor"];
+        var size = msg[beid]["size"];
+
+        $("#canvas").append("<div class='circle beid"+beid+"' style='position: absolute; top: "+(y)+"%; left: "+(x)+"%; background-color:"+color+"; border-radius: 50px; width: "+size+"px; height: "+size+"px'></div>");
+    });
+
     var selected = null;
 
 
