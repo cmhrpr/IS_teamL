@@ -23,6 +23,19 @@ socket.on('draw_line', function (data) {
     }
 });
 
+socket.on('draw_text', function (data) {
+    var el = Object.keys(data)[0];
+    var div = document.createElement('div');
+    div.style.fontFamily = "verdana";
+    div.style.position = "absolute";
+    div.style.left = data[el]['x'] + "%";
+    div.style.top = data[el]['y']+ "%";
+    div.style.color = data[el]['color'];
+    div.style.fontSize = data[el]['fontSize'];
+    div.innerHTML = data[el]['output'];
+    $("#canvas").append(div);
+});
+
 socket.on('wipe_stroke', function (data) {
     $(".beid"+data).remove();
 });

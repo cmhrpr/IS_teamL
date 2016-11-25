@@ -154,6 +154,18 @@ io.on('connection', function(socket) {
         io.emit('draw_line', entry);
     });
 
+    socket.on('newtext', function(data) {
+        console.log("Received a new text!");
+        var key = data["textID"];
+        var value = data["data"]
+        var entry = {};
+        entry[key] = value;
+
+        line_history[key] = value;
+        console.log(entry);
+        io.emit('draw_text', entry);
+    });
+
     socket.on('clear', function() {
         line_history = {};
         io.emit('clear');

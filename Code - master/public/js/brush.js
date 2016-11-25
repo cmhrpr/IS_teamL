@@ -107,6 +107,7 @@ function initBrush(tool) {
             $("#canvas").append(div);
             teid++;
             textElements[teid] = {"x": x, "y": y, "color": color, "fontSize": size, "output": textoutput};
+            socket.emit('newtext',{"textID": teid,"data": textElements[teid]});
 
 
             // socket.emit('new_textfield', {"strokeID": beid, "data": currentElement});
